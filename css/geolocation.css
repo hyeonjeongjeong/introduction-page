@@ -1,0 +1,20 @@
+﻿#map {
+    width: 60vw;
+    height: 60vh;
+    margin: 0 auto 30px;
+}
+
+#loc {
+    width: 60vw;
+    margin: auto;
+    text-align: center;
+}
+
+#move {
+    display: inline-block;
+}
+
+.now {
+    padding: 1px 6px;
+    display: inline-block;
+}
