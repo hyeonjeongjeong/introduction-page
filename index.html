@@ -23,6 +23,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
         <div class="container">
+
             <a class="navbar-brand" href="#page-top"><img src="assets/img/navbar-logo.svg" alt="..." /></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
@@ -105,21 +106,31 @@
                 <h3 class="section-subheading text-muted">공항의 위치와 현재 위치를 확인할 수 있습니다.</h3>
             </div>
             <div>
-                <div>
+                <div id="map_box">
                     <div id="map"></div>
-                    <div id="loc" class="clearfix">
+                    <div id="roadview_box"><div id="roadview" class="road" style="width:60vw;height:60vh; margin : auto;"></div></div>
+                    <div class="select_btn ">
                         <button type="button" value="location" class="now btn-primary m-1">현재위치</button>
+                        <button type="button" value="location" class="view btn-primary m-1">로드뷰</button>
+                    </div>
+                    
+                    <div id="loc" class="clearfix">
                         <div id="move">
-                            <button type="button" value="37.562436, 126.800892" class="location Kimpo btn-primary text-uppercase btn m-1">김포공항</button>
-                            <button type="button" value="37.460353, 126.440578" class="location Incheon btn-primary m-1">인천공항</button>
-                            <button type="button" value="35.173185, 128.946459" class="location Gimhae btn-primary m-1">김해공항</button>
-                            <button type="button" value="35.900059, 128.637705" class="location Daegu btn-primary m-1">대구공항</button>
-                            <button type="button" value="35.593475, 129.356544" class="location Ulsan btn-primary m-1">울산공항</button>
-                            <button type="button" value="35.984626, 129.433918" class="location Pohang btn-primary m-1">포항공항</button>
-                            <button type="button" value="37.459211, 127.977154" class="location Wonju btn-primary m-1">원주공항</button>
-                            <button type="button" value="36.721946, 127.495834" class="location Cheongju btn-primary m-1">청주공항</button>
-                            <button type="button" value="38.058783, 128.662987" class="location Yangyang btn-primary m-1">양양공항</button>
-                            <button type="button" value="33.510216, 126.491332" class="location Jeju btn-primary m-1">제주공항</button>
+                            <div>
+                                <button type="button" value="서울 강서구 하늘길 38" class="location Kimpo btn-primary m-1">김포공항</button>
+                                <button type="button" value="인천 중구 공항로 271" class="location Incheon btn-primary m-1">인천공항</button>
+                                <button type="button" value="부산 강서구 대저2동 1825-19" class="location Gimhae btn-primary m-1">김해공항</button>
+                                <button type="button" value="대구 동구 공항로 221" class="location Daegu btn-primary m-1">대구공항</button>
+                                <button type="button" value="울산 북구 산업로 1103" class="location Ulsan btn-primary m-1">울산공항</button>
+                            </div>
+                            <div>
+                                <button type="button" value="경북 포항시 남구 동해면 일월로 18" class="location Pohang btn-primary m-1">포항공항</button>
+                                <button type="button" value="강원 횡성군 횡성읍 횡성로 38" class="location Wonju btn-primary m-1">원주공항</button>
+                                <button type="button" value="충북 청주시 청원구 내수읍 오창대로 980" class="location Cheongju btn-primary m-1">청주공항</button>
+                                <button type="button" value="강원 양양군 손양면 공항로 201" class="location Yangyang btn-primary m-1">양양공항</button>
+                                <button type="button" value="제주특별자치도 제주시 공항로 2" class="location Jeju btn-primary m-1">제주공항</button>
+                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -152,6 +163,6 @@
     <script src="js/kanbanboard.js"></script>
     <script src="js/geolocation.js"></script>
     <!--카카오지도-->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8591044f66278fd2484621cb7140724d"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8591044f66278fd2484621cb7140724d&libraries=services"></script>
 </body>
 </html>
