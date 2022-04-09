@@ -18,17 +18,35 @@ allColumn.forEach((column) => {
 	column.addEventListener("dragenter", dragEnter);
 	column.addEventListener("dragleave", dragLeave);
 	column.addEventListener("drop", dragDrop);
-	column.addEventListener("click", pmClick);
+	// column.addEventListener("click", pmClick);
+});
+
+
+const allRemoveBtn = document.querySelectorAll(".pmBtn");
+
+allRemoveBtn.forEach((removeBtn) => {
+	removeBtn.addEventListener("click", pmClick);
 });
 
 function pmClick() {
+	console.log("remove");
 	let column = event.target;
 	let columnparent = column.parentNode;
+	let itemInput = columnparent.children[0];
 
 	if (column.className == "pmBtn") {
 		column.remove();
 		columnparent.remove();
 	}
+
+	let cardIndex;
+	$.each(kanbanboard.cards, (index, obj) => {
+		if (obj.id == itemInput.getAttribute("id")) {
+			cardIndex = index;
+		}
+	});
+	kanbanboard.cards.splice(cardIndex, 1);
+	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
 }
 
 function dragStart() {
@@ -111,6 +129,7 @@ allAddBtn.forEach((addBtn) => {
 function addItem() {
 	let columnName = $(this).parent().find(".kanban__column-title").html();
 	let newId = Math.floor(Math.random() * 100000);
+	
 	// json 저장
 	kanbanboard.cards.push({
 		id: newId,
@@ -134,6 +153,12 @@ function addItem() {
 	itemInputDiv.addEventListener("click", clickItem);
 	itemInputDiv.addEventListener("blur", editItem);
 	itemDiv.appendChild(itemInputDiv);
+
+	const itembtn = document.createElement("div");
+	itembtn.className = "pmBtn";
+	itembtn.innerHTML = "-"
+	itembtn.addEventListener("click", pmClick);
+	itemDiv.appendChild(itembtn);
 
 	const dropzoneDiv = document.createElement("div");
 	dropzoneDiv.className = "kanban__dropzone";
@@ -173,11 +198,12 @@ else {
 		itemInputDiv.innerText = item.description;
 		itemDiv.appendChild(itemInputDiv);
 
-    const itembtn = document.createElement("div");
-    itembtn.className = "pmBtn";
-  	itembtn.innerHTML = "-"
-	  itemDiv.appendChild(itembtn);
-    
+		const itembtn = document.createElement("div");
+		itembtn.className = "pmBtn";
+		itembtn.innerHTML = "-"
+		itembtn.addEventListener("click", pmClick);
+		itemDiv.appendChild(itembtn);
+
 		const dropzoneDiv = document.createElement("div");
 		dropzoneDiv.className = "kanban__dropzone";
 		itemDiv.appendChild(dropzoneDiv);
