@@ -75,3 +75,54 @@ function addItem() {
 
 	console.log("add");
 }
+
+
+// ===== local storage =====
+
+// kanbanboard JSON
+let kanbanboard = {
+	cards: [
+		{
+			id: 1,
+			description: "내용",
+			column: "In Progress"
+		},
+		{
+			id: 2,
+			description: "내용2",
+			column: "Not Started"
+		}
+	],
+	config: { mode: "dark", fix: false }
+};
+// localStorage에 JSON 저장
+localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+// localStorage의 JSON 불러오기
+let localKanban = JSON.parse(localStorage.getItem('kanbanboard'));
+
+// load todo
+let cards = localKanban.cards;
+cards.forEach((item) => {
+	const itemDiv = document.createElement("div");
+	itemDiv.className = "kanban__item";
+	itemDiv.setAttribute("draggable", "true");
+	itemDiv.addEventListener("dragstart", dragStart);
+	itemDiv.addEventListener("dragend", dragEnd);
+
+	const itemInputDiv = document.createElement("div");
+	itemInputDiv.className = "kanban__item-input";
+	itemInputDiv.setAttribute("contenteditable", true);
+	itemInputDiv.innerText = item.description;
+	itemDiv.appendChild(itemInputDiv);
+
+	const dropzoneDiv = document.createElement("div");
+	dropzoneDiv.className = "kanban__dropzone";
+	itemDiv.appendChild(dropzoneDiv);
+
+	$(".kanban__items").each((index, element) => {
+		let columnName = $(element).prev().text();
+		if (columnName == item.column) {
+			$(element).append(itemDiv);
+		}
+	})
+});
