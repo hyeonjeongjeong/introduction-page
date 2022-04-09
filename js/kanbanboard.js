@@ -1,11 +1,10 @@
-﻿// drag & drop
-﻿// kanbanboard JSON
+// kanbanboard JSON
 let kanbanboard = {
 	cards: [],
 	config: { mode: "day", fix: false }
 };
 
-
+// drag & drop
 let item = null;
 const allItem = document.querySelectorAll(".kanban__item");
 const allColumn = document.querySelectorAll(".kanban__column");
@@ -19,7 +18,18 @@ allColumn.forEach((column) => {
 	column.addEventListener("dragenter", dragEnter);
 	column.addEventListener("dragleave", dragLeave);
 	column.addEventListener("drop", dragDrop);
+	column.addEventListener("click", pmClick);
 });
+
+function pmClick() {
+	let column = event.target;
+	let columnparent = column.parentNode;
+
+	if (column.className == "pmBtn") {
+		column.remove();
+		columnparent.remove();
+	}
+}
 
 function dragStart() {
 	item = this;
@@ -163,6 +173,11 @@ else {
 		itemInputDiv.innerText = item.description;
 		itemDiv.appendChild(itemInputDiv);
 
+    const itembtn = document.createElement("div");
+    itembtn.className = "pmBtn";
+  	itembtn.innerHTML = "-"
+	  itemDiv.appendChild(itembtn);
+    
 		const dropzoneDiv = document.createElement("div");
 		dropzoneDiv.className = "kanban__dropzone";
 		itemDiv.appendChild(dropzoneDiv);
@@ -175,4 +190,3 @@ else {
 		});
 	});
 }
-
