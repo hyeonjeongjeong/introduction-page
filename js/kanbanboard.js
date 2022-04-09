@@ -123,6 +123,6 @@ cards.forEach((item) => {
 		let columnName = $(element).prev().text();
 		if (columnName == item.column) {
 			$(element).append(itemDiv);
-        }
-    })
+		}
+	})
 });
