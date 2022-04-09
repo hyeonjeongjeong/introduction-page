@@ -54,6 +54,18 @@ allAddBtn.forEach((addBtn) => {
 })
 
 function addItem() {
+	let columnName = $(this).parent().find(".kanban__column-title").html();
+	let newId = Math.floor(Math.random() * 100000);
+	// json 저장
+	kanbanboard.cards.push({
+		id: newId,
+		description: "",
+		column: columnName
+	});
+	console.log(kanbanboard);
+	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+
+
 	const itemDiv = document.createElement("div");
 	itemDiv.className = "kanban__item";
 	itemDiv.setAttribute("draggable", "true");
