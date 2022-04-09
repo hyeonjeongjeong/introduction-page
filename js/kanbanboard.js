@@ -129,44 +129,22 @@ allAddBtn.forEach((addBtn) => {
 function addItem() {
 	let columnName = $(this).parent().find(".kanban__column-title").html();
 	let newId = Math.floor(Math.random() * 100000);
+	let newDescription = ""
 	
 	// json 저장
 	kanbanboard.cards.push({
 		id: newId,
-		description: "",
+		description: newDescription,
 		column: columnName
 	});
 	console.log(kanbanboard);
 	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
 
-
-	const itemDiv = document.createElement("div");
-	itemDiv.className = "kanban__item";
-	itemDiv.setAttribute("draggable", "true");
-	itemDiv.addEventListener("dragstart", dragStart);
-	itemDiv.addEventListener("dragend", dragEnd);
-
-	const itemInputDiv = document.createElement("div");
-	itemInputDiv.className = "kanban__item-input";
-	itemInputDiv.setAttribute("contenteditable", true);
-	itemInputDiv.id = newId;
-	itemInputDiv.addEventListener("click", clickItem);
-	itemInputDiv.addEventListener("blur", editItem);
-	itemDiv.appendChild(itemInputDiv);
-
-	const itembtn = document.createElement("div");
-	itembtn.className = "pmBtn";
-	itembtn.innerHTML = "-"
-	itembtn.addEventListener("click", pmClick);
-	itemDiv.appendChild(itembtn);
-
-	const dropzoneDiv = document.createElement("div");
-	dropzoneDiv.className = "kanban__dropzone";
-	itemDiv.appendChild(dropzoneDiv);
+	let newTodo = createTodo(newId, newDescription);
 
 	let column = document.querySelector(".kanban__items");
 	column = this.previousElementSibling;
-	column.appendChild(itemDiv);
+	column.appendChild(newTodo);
 
 	console.log("add");
 }
@@ -185,34 +163,42 @@ else {
 	localKanban.cards.forEach((item) => {
 		kanbanboard.cards.push(item); // local storage -> json
 
-		const itemDiv = document.createElement("div");
-		itemDiv.className = "kanban__item";
-		itemDiv.setAttribute("draggable", "true");
-		itemDiv.addEventListener("dragstart", dragStart);
-		itemDiv.addEventListener("dragend", dragEnd);
-
-		const itemInputDiv = document.createElement("div");
-		itemInputDiv.className = "kanban__item-input";
-		itemInputDiv.setAttribute("contenteditable", true);
-		itemInputDiv.id = item.id;
-		itemInputDiv.innerText = item.description;
-		itemDiv.appendChild(itemInputDiv);
-
-		const itembtn = document.createElement("div");
-		itembtn.className = "pmBtn";
-		itembtn.innerHTML = "-"
-		itembtn.addEventListener("click", pmClick);
-		itemDiv.appendChild(itembtn);
-
-		const dropzoneDiv = document.createElement("div");
-		dropzoneDiv.className = "kanban__dropzone";
-		itemDiv.appendChild(dropzoneDiv);
+		let newTodo = createTodo(item.id, item.description);
 
 		$(".kanban__items").each((index, element) => {
 			let columnName = $(element).prev().html();
 			if (columnName == item.column) {
-				$(element).append(itemDiv);
+				$(element).append(newTodo);
 			}
 		});
 	});
+}
+
+function createTodo(id, description) {
+	const itemDiv = document.createElement("div");
+	itemDiv.className = "kanban__item";
+	itemDiv.setAttribute("draggable", "true");
+	itemDiv.addEventListener("dragstart", dragStart);
+	itemDiv.addEventListener("dragend", dragEnd);
+
+	const itemInputDiv = document.createElement("div");
+	itemInputDiv.className = "kanban__item-input";
+	itemInputDiv.setAttribute("contenteditable", true);
+	itemInputDiv.id = id;
+	itemInputDiv.innerText = description;
+	itemInputDiv.addEventListener("click", clickItem);
+	itemInputDiv.addEventListener("blur", editItem);
+	itemDiv.appendChild(itemInputDiv);
+
+	const itembtn = document.createElement("div");
+	itembtn.className = "pmBtn";
+	itembtn.innerHTML = "-"
+	itembtn.addEventListener("click", pmClick);
+	itemDiv.appendChild(itembtn);
+
+	const dropzoneDiv = document.createElement("div");
+	dropzoneDiv.className = "kanban__dropzone";
+	itemDiv.appendChild(dropzoneDiv);
+
+	return itemDiv;
 }
