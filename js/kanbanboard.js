@@ -51,6 +51,34 @@ function dragDrop() {
 	console.log("dropped");
 }
 
+
+// Edit Item
+let itemInput = null;
+const allitemInput = document.querySelectorAll(".kanban__item-input");
+
+allItem.forEach((itemInput) => {
+	itemInput.addEventListener("click", clickItem);
+	itemInput.addEventListener("blur", editItem);
+});
+function clickItem() {
+	itemInput = this;
+}
+function editItem() {
+	// json 저장
+	$.each(kanbanboard.cards, (index, obj) => {
+		if (obj.id == itemInput.id) {
+			obj.description = itemInput.innerText;
+		}
+	});
+
+	// local storage 저장
+	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+
+	itemInput = null;
+	console.log('blur');
+}
+
+
 // Add Item
 
 const allAddBtn = document.querySelectorAll(".kanban__add-item");
@@ -81,6 +109,9 @@ function addItem() {
 	const itemInputDiv = document.createElement("div");
 	itemInputDiv.className = "kanban__item-input";
 	itemInputDiv.setAttribute("contenteditable", true);
+	itemInputDiv.id = newId;
+	itemInputDiv.addEventListener("click", clickItem);
+	itemInputDiv.addEventListener("blur", editItem);
 	itemDiv.appendChild(itemInputDiv);
 
 	const dropzoneDiv = document.createElement("div");
