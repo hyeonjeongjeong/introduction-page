@@ -1,5 +1,10 @@
-﻿// drag & drop
+// kanbanboard JSON
+let kanbanboard = {
+	cards: [],
+	config: { mode: "day", fix: false }
+};
 
+// drag & drop
 let item = null;
 const allItem = document.querySelectorAll(".kanban__item");
 const allColumn = document.querySelectorAll(".kanban__column");
@@ -7,7 +12,7 @@ const allColumn = document.querySelectorAll(".kanban__column");
 allItem.forEach((item) => {
 	item.addEventListener("dragstart", dragStart);
 	item.addEventListener("dragend", dragEnd);
-})
+});
 allColumn.forEach((column) => {
 	column.addEventListener("dragover", dragOver);
 	column.addEventListener("dragenter", dragEnter);
@@ -53,8 +58,47 @@ function dragLeave() {
 function dragDrop() {
 	this.style.border = "none";
 	this.children[1].appendChild(item);
+
+	// json 저장
+	$.each(kanbanboard.cards, (index, obj) => {
+		if (obj.id == item.children[0].id) {
+			obj.column = this.children[0].innerText;
+		}
+	});
+
+	// local storage 저장
+	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+
 	console.log("dropped");
 }
+
+
+// Edit Item
+let itemInput = null;
+const allitemInput = document.querySelectorAll(".kanban__item-input");
+
+allItem.forEach((itemInput) => {
+	itemInput.addEventListener("click", clickItem);
+	itemInput.addEventListener("blur", editItem);
+});
+function clickItem() {
+	itemInput = this;
+}
+function editItem() {
+	// json 저장
+	$.each(kanbanboard.cards, (index, obj) => {
+		if (obj.id == itemInput.id) {
+			obj.description = itemInput.innerText;
+		}
+	});
+
+	// local storage 저장
+	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+
+	itemInput = null;
+	console.log('blur');
+}
+
 
 // Add Item
 
@@ -62,9 +106,21 @@ const allAddBtn = document.querySelectorAll(".kanban__add-item");
 
 allAddBtn.forEach((addBtn) => {
 	addBtn.addEventListener("click", addItem);
-})
+});
 
 function addItem() {
+	let columnName = $(this).parent().find(".kanban__column-title").html();
+	let newId = Math.floor(Math.random() * 100000);
+	// json 저장
+	kanbanboard.cards.push({
+		id: newId,
+		description: "",
+		column: columnName
+	});
+	console.log(kanbanboard);
+	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+
+
 	const itemDiv = document.createElement("div");
 	itemDiv.className = "kanban__item";
 	itemDiv.setAttribute("draggable", "true");
@@ -74,6 +130,9 @@ function addItem() {
 	const itemInputDiv = document.createElement("div");
 	itemInputDiv.className = "kanban__item-input";
 	itemInputDiv.setAttribute("contenteditable", true);
+	itemInputDiv.id = newId;
+	itemInputDiv.addEventListener("click", clickItem);
+	itemInputDiv.addEventListener("blur", editItem);
 	itemDiv.appendChild(itemInputDiv);
 
 	const dropzoneDiv = document.createElement("div");
@@ -90,55 +149,44 @@ function addItem() {
 
 // ===== local storage =====
 
-// kanbanboard JSON
-let kanbanboard = {
-	cards: [
-		{
-			id: 1,
-			description: "내용",
-			column: "In Progress"
-		},
-		{
-			id: 2,
-			description: "내용2",
-			column: "Not Started"
-		}
-	],
-	config: { mode: "dark", fix: false }
-};
-// localStorage에 JSON 저장
-localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
 // localStorage의 JSON 불러오기
 let localKanban = JSON.parse(localStorage.getItem('kanbanboard'));
 
 // load todo
-let cards = localKanban.cards;
-cards.forEach((item) => {
-	const itemDiv = document.createElement("div");
-	itemDiv.className = "kanban__item";
-	itemDiv.setAttribute("draggable", "true");
-	itemDiv.addEventListener("dragstart", dragStart);
-	itemDiv.addEventListener("dragend", dragEnd);
+if (localKanban == null) {
+	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+}
+else {
+	localKanban.cards.forEach((item) => {
+		kanbanboard.cards.push(item); // local storage -> json
 
-	const itemInputDiv = document.createElement("div");
-	itemInputDiv.className = "kanban__item-input";
-	itemInputDiv.setAttribute("contenteditable", true);
-	itemInputDiv.innerText = item.description;
-	itemDiv.appendChild(itemInputDiv);
+		const itemDiv = document.createElement("div");
+		itemDiv.className = "kanban__item";
+		itemDiv.setAttribute("draggable", "true");
+		itemDiv.addEventListener("dragstart", dragStart);
+		itemDiv.addEventListener("dragend", dragEnd);
 
-	const itembtn = document.createElement("div");
-	itembtn.className = "pmBtn";
-	itembtn.innerHTML = "-"
-	itemDiv.appendChild(itembtn);
+		const itemInputDiv = document.createElement("div");
+		itemInputDiv.className = "kanban__item-input";
+		itemInputDiv.setAttribute("contenteditable", true);
+		itemInputDiv.id = item.id;
+		itemInputDiv.innerText = item.description;
+		itemDiv.appendChild(itemInputDiv);
 
-	const dropzoneDiv = document.createElement("div");
-	dropzoneDiv.className = "kanban__dropzone";
-	itemDiv.appendChild(dropzoneDiv);
+    const itembtn = document.createElement("div");
+    itembtn.className = "pmBtn";
+  	itembtn.innerHTML = "-"
+	  itemDiv.appendChild(itembtn);
+    
+		const dropzoneDiv = document.createElement("div");
+		dropzoneDiv.className = "kanban__dropzone";
+		itemDiv.appendChild(dropzoneDiv);
 
-	$(".kanban__items").each((index, element) => {
-		let columnName = $(element).prev().text();
-		if (columnName == item.column) {
-			$(element).append(itemDiv);
-        }
-    })
-});
+		$(".kanban__items").each((index, element) => {
+			let columnName = $(element).prev().html();
+			if (columnName == item.column) {
+				$(element).append(itemDiv);
+			}
+		});
+	});
+}
