@@ -13,7 +13,7 @@ const allColumn = document.querySelectorAll(".kanban__column");
 allItem.forEach((item) => {
 	item.addEventListener("dragstart", dragStart);
 	item.addEventListener("dragend", dragEnd);
-})
+});
 allColumn.forEach((column) => {
 	column.addEventListener("dragover", dragOver);
 	column.addEventListener("dragenter", dragEnter);
@@ -48,6 +48,17 @@ function dragLeave() {
 function dragDrop() {
 	this.style.border = "none";
 	this.children[1].appendChild(item);
+
+	// json 저장
+	$.each(kanbanboard.cards, (index, obj) => {
+		if (obj.id == item.children[0].id) {
+			obj.column = this.children[0].innerText;
+		}
+	});
+
+	// local storage 저장
+	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+
 	console.log("dropped");
 }
 
@@ -85,7 +96,7 @@ const allAddBtn = document.querySelectorAll(".kanban__add-item");
 
 allAddBtn.forEach((addBtn) => {
 	addBtn.addEventListener("click", addItem);
-})
+});
 
 function addItem() {
 	let columnName = $(this).parent().find(".kanban__column-title").html();
