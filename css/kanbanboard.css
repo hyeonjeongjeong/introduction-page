@@ -30,6 +30,16 @@
     cursor: pointer;
 }
 
+.pmBtn {
+    padding: 10px 15px;
+    background: white;
+    box-sizing: border-box;
+    cursor: pointer;
+    width: 10%;
+    border-radius: 5px;
+    float: right;
+}
+
 .kanban__dropzone {
     height: 10px;
     transition: background 0.15s, height 0.15s;

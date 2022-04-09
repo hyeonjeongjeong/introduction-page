@@ -13,7 +13,18 @@ allColumn.forEach((column) => {
 	column.addEventListener("dragenter", dragEnter);
 	column.addEventListener("dragleave", dragLeave);
 	column.addEventListener("drop", dragDrop);
+	column.addEventListener("click", pmClick);
 });
+
+function pmClick() {
+	let column = event.target;
+	let columnparent = column.parentNode;
+
+	if (column.className == "pmBtn") {
+		column.remove();
+		columnparent.remove();
+	}
+}
 
 function dragStart() {
 	item = this;
@@ -114,6 +125,11 @@ cards.forEach((item) => {
 	itemInputDiv.setAttribute("contenteditable", true);
 	itemInputDiv.innerText = item.description;
 	itemDiv.appendChild(itemInputDiv);
+
+	const itembtn = document.createElement("div");
+	itembtn.className = "pmBtn";
+	itembtn.innerHTML = "-"
+	itemDiv.appendChild(itembtn);
 
 	const dropzoneDiv = document.createElement("div");
 	dropzoneDiv.className = "kanban__dropzone";
