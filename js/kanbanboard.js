@@ -4,6 +4,7 @@ let kanbanboard = {
 	config: { mode: "day", fix: false }
 };
 
+// Column setting
 $('.kanban__column').each((index, element) => {
 	$(element).on({
 		"dragover": dragOver,
@@ -12,98 +13,32 @@ $('.kanban__column').each((index, element) => {
 		"drop": dragDrop
 	});
 });
-
-function pmClick() {
-	let column = event.target;
-	let columnparent = column.parentNode;
-	let itemInput = columnparent.children[0];
-
-	if (column.className == "pmBtn") {
-		column.remove();
-		columnparent.remove();
-	}
-
-	let cardIndex;
-	$.each(kanbanboard.cards, (index, obj) => {
-		if (obj.id == itemInput.getAttribute("id")) {
-			cardIndex = index;
-		}
-	});
-	kanbanboard.cards.splice(cardIndex, 1);
-	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
-
-	console.log('remove');
-}
-
-let item = null;
-function dragStart() {
-	item = this;
-	console.log("dragStart");
-}
-function dragEnd() {
-	item = null;
-	console.log("dragEnd");
-}
-function dragOver(e) {
-	e.preventDefault();
-}
-function dragEnter() {
-	this.style.border = "1px dashed #ccc";
-	console.log("dragEnter");
-}
-function dragLeave() {
-	this.style.border = "none";
-	console.log("dragLeave");
-}
-function dragDrop() {
-	this.style.border = "none";
-	this.children[1].appendChild(item);
-
-	// json 저장
-	$.each(kanbanboard.cards, (index, obj) => {
-		if (obj.id == item.children[0].id) {
-			obj.column = this.children[0].innerText;
-		}
-	});
-
-	// local storage 저장
-	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
-
-	console.log("dropped");
-}
-
-
-// Edit Item
-let itemInput = null;
-function clickItem() {
-	itemInput = this;
-}
-function editItem() {
-	// json 저장
-	$.each(kanbanboard.cards, (index, obj) => {
-		if (obj.id == itemInput.id) {
-			obj.description = itemInput.innerText;
-		}
-	});
-
-	// local storage 저장
-	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
-
-	itemInput = null;
-
-	console.log('edit');
-}
-
-
-// Add Item
-
 $('.kanban__add-item').each((index, element) => {
-	//element.addEventListener("click", addItem);
 	$(element).on({
 		"click": addItem
 	});
 });
 
+// Load todo
+let localKanban = JSON.parse(localStorage.getItem('kanbanboard'));
+if (localKanban == null) {
+	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+} else {
+	localKanban.cards.forEach((item) => {
+		kanbanboard.cards.push(item); // local storage -> json
+
+		let newTodo = createTodo(item.id, item.description);
+
+		$(".kanban__items").each((index, element) => {
+			let columnName = $(element).prev().html();
+			if (columnName == item.column) {
+				$(element).append(newTodo);
+			}
+		});
+	});
+}
+
+// Add todo
 function addItem() {
 	let newId = Math.floor(Math.random() * 100000);
 	let newDescription = ""
@@ -126,31 +61,50 @@ function addItem() {
 	console.log('add');
 }
 
-
-// ===== local storage =====
-
-// localStorage의 JSON 불러오기
-let localKanban = JSON.parse(localStorage.getItem('kanbanboard'));
-
-// load todo
-if (localKanban == null) {
-	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+// Edit todo
+let itemInput = null;
+function clickItem() {
+	itemInput = this;
 }
-else {
-	localKanban.cards.forEach((item) => {
-		kanbanboard.cards.push(item); // local storage -> json
-
-		let newTodo = createTodo(item.id, item.description);
-
-		$(".kanban__items").each((index, element) => {
-			let columnName = $(element).prev().html();
-			if (columnName == item.column) {
-				$(element).append(newTodo);
-			}
-		});
+function editItem() {
+	// json 저장
+	$.each(kanbanboard.cards, (index, obj) => {
+		if (obj.id == itemInput.id) {
+			obj.description = itemInput.innerText;
+		}
 	});
+
+	// local storage 저장
+	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+
+	itemInput = null;
+
+	console.log('edit');
 }
 
+// Remove todo
+function pmClick() {
+	let item = event.target.parentNode;
+	let itemInput = item.children[0];
+	let cardIndex;
+
+	item.remove();
+
+	// json 삭제
+	$.each(kanbanboard.cards, (index, obj) => {
+		if (obj.id == $(itemInput).attr('id')) {
+			cardIndex = index;
+		}
+	});
+	kanbanboard.cards.splice(cardIndex, 1);
+
+	// local storage 삭제
+	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+
+	console.log('remove');
+}
+
+// Create todo
 function createTodo(id, description) {
 	const itemDiv = $(document.createElement("div"));
 	itemDiv.attr({
@@ -187,4 +141,42 @@ function createTodo(id, description) {
 	itemDiv.append(dropzoneDiv);
 
 	return itemDiv;
+}
+
+// Move todo
+let item = null;
+function dragStart() {
+	item = this;
+	console.log("dragStart");
+}
+function dragEnd() {
+	item = null;
+	console.log("dragEnd");
+}
+function dragOver(e) {
+	e.preventDefault();
+}
+function dragEnter() {
+	this.style.border = "1px dashed #ccc";
+	console.log("dragEnter");
+}
+function dragLeave() {
+	this.style.border = "none";
+	console.log("dragLeave");
+}
+function dragDrop() {
+	this.style.border = "none";
+	this.children[1].appendChild(item);
+
+	// json 저장
+	$.each(kanbanboard.cards, (index, obj) => {
+		if (obj.id == item.children[0].id) {
+			obj.column = this.children[0].innerText;
+		}
+	});
+
+	// local storage 저장
+	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+
+	console.log('dropped');
 }
