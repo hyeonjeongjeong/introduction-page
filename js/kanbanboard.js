@@ -88,20 +88,36 @@ function pmClick() {
 	let itemInput = item.children[0];
 	let cardIndex;
 
-	item.remove();
+	swal({
+		title: "REALLY?!",
+		text: "정말로 삭제하시겠습니까? 삭제하면 복구할 수 없습니다!",
+		icon: "warning",
+		buttons: true,
+		dangerMode: true,
+	}).then((willDelete) => {
+		if (willDelete) {
+			swal("삭제가 완료되었습니다!", {
+				icon: "success",
+			});
 
-	// json 삭제
-	$.each(kanbanboard.cards, (index, obj) => {
-		if (obj.id == $(itemInput).attr('id')) {
-			cardIndex = index;
+			item.remove();
+
+			// json 삭제
+			$.each(kanbanboard.cards, (index, obj) => {
+				if (obj.id == $(itemInput).attr('id')) {
+					cardIndex = index;
+				}
+			});
+			kanbanboard.cards.splice(cardIndex, 1);
+
+			// local storage 삭제
+			localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
+
+			console.log('remove');
+		} else {
+			console.log('remove cancel');
 		}
-	});
-	kanbanboard.cards.splice(cardIndex, 1);
-
-	// local storage 삭제
-	localStorage.setItem('kanbanboard', JSON.stringify(kanbanboard));
-
-	console.log('remove');
+	});		
 }
 
 // Create todo
