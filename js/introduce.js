@@ -85,3 +85,8 @@ function showshow4() {
     document.getElementById("hyeonjeongpic").src = "images/hyeonjeong_wink.png";
     document.getElementById("personalpage4").style.display = '';
 }
+
+
+$('.active').click(e => {
+    e.preventDefault();
+});
