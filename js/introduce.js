@@ -7,9 +7,9 @@ function myFunction1() {
     document.getElementById('showname1').innerHTML = "Hello " + who + "!";
     document.getElementById("minjupic").src = "images/minju_hello.png";
     document.getElementById("showname1").style.display = '';
-    document.getElementById("quhi").style.display = '';
-    document.getElementById("quweb").style.display = '';
-    document.getElementById("quanswer").style.display = '';
+    document.getElementById("quhi1").style.display = '';
+    document.getElementById("quweb1").style.display = '';
+    document.getElementById("quanswer1").style.display = '';
 }
 
 function myFunction2() {
@@ -18,20 +18,19 @@ function myFunction2() {
     document.getElementById('showname2').innerHTML = "Hello " + who + "!";
     document.getElementById("jyeongik").src = "images/kyenik_hello.jpg";
     document.getElementById("showname2").style.display = '';
-    document.getElementById("quhi").style.display = '';
-    document.getElementById("quweb").style.display = '';
-    document.getElementById("quanswer").style.display = '';
+    document.getElementById("quhi2").style.display = '';
+    document.getElementById("quweb2").style.display = '';
+    document.getElementById("quanswer2").style.display = '';
 }
-
 function myFunction3() {
     var who = document.getElementById('whoname3').value;
     document.getElementById("showname3").style.display = '';
     document.getElementById('showname3').innerHTML = "Hello " + who + "!";
-    document.getElementById("jaeyoungpic").src = "images/jaeyoung_hello.png";
+    document.getElementById("jaeyoungpic").src = "images/jaeyoung_hi.jpg";
     document.getElementById("showname3").style.display = '';
-    document.getElementById("quhi").style.display = '';
-    document.getElementById("quweb").style.display = '';
-    document.getElementById("quanswer").style.display = '';
+    document.getElementById("quhi3").style.display = '';
+    document.getElementById("quweb3").style.display = '';
+    document.getElementById("quanswer3").style.display = '';
 }
 
 function myFunction4() {
@@ -44,8 +43,6 @@ function myFunction4() {
     document.getElementById("quweb4").style.display = '';
     document.getElementById("quanswer4").style.display = '';
 }
-
-
 
 function toggleimg1() {
     document.getElementById("minjupic").src = "images/minju_sad.png";
@@ -77,14 +74,14 @@ function showshow1() {
     document.getElementById("personalpage1").style.display = '';
 }
 function showshow2() {
-    document.getElementById("kyeongikpic").src = "images/kyeonikwink.jpg";
+    document.getElementById("kyeongikpic").src = "images/kyeonik_wink.jpg";
     document.getElementById("personalpage2").style.display = '';
 
-} function showshow3() {
-    document.getElementById("jaeyoungpic").src = "images/hyeonjeong_wink.png";
+}function showshow3() {
+    document.getElementById("jaeyoungpic").src = "images/jaeyoung_happy.jpg";
     document.getElementById("personalpage3").style.display = '';
-
-} function showshow4() {
+}
+function showshow4() {
     document.getElementById("hyeonjeongpic").src = "images/hyeonjeong_wink.png";
     document.getElementById("personalpage4").style.display = '';
 }
