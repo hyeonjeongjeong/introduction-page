@@ -69,7 +69,7 @@ function clickItem() {
 function editItem() {
 	// json 저장
 	$.each(kanbanboard.cards, (index, obj) => {
-		if (obj.id == itemInput.id) {
+		if (obj.id == $(itemInput).attr('id')) {
 			obj.description = itemInput.innerText;
 		}
 	});
@@ -131,7 +131,7 @@ function createTodo(id, description) {
 		"class": "pmBtn"
 	}).on({
 		"click": pmClick
-	}).html("-");
+	}).html("&times;");
 	itemDiv.append(itembtn);
 	
 	const dropzoneDiv = $(document.createElement("div"));
@@ -147,25 +147,43 @@ function createTodo(id, description) {
 let item = null;
 function dragStart() {
 	item = this;
-	console.log("dragStart");
+	console.log('dragStart');
 }
 function dragEnd() {
 	item = null;
-	console.log("dragEnd");
+	console.log('dragEnd');
 }
 function dragOver(e) {
 	e.preventDefault();
 }
 function dragEnter() {
-	this.style.border = "1px dashed #ccc";
-	console.log("dragEnter");
+	let kanbanElement = $(this).parent()[0];
+
+	$(kanbanElement).css({
+		"box-shadow": "0 5px 20px 0 rgba(68, 88, 144, 0.3)",
+		"transform": "scale(1.05)"
+	});
+
+	console.log('dragEnter');
 }
 function dragLeave() {
-	this.style.border = "none";
-	console.log("dragLeave");
+	let kanbanElement = $(this).parent()[0];
+
+	$(kanbanElement).css({
+		"box-shadow": "",
+		"transform": ""
+	});
+
+	console.log('dragLeave');
 }
 function dragDrop() {
-	this.style.border = "none";
+	let kanbanElement = $(this).parent()[0];
+
+	$(kanbanElement).css({
+		"box-shadow": "",
+		"transform": ""
+	});
+
 	this.children[1].appendChild(item);
 
 	// json 저장
