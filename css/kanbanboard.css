@@ -11,6 +11,7 @@
 
 .kanban__column {
     flex: 1;
+    overflow: hidden;
 }
     .kanban__column:not(:last-child) {
         margin-right: 30px;
