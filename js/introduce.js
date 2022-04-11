@@ -16,12 +16,13 @@ function myFunction2() {
     var who = document.getElementById('whoname2').value;
     document.getElementById("showname2").style.display = '';
     document.getElementById('showname2').innerHTML = "Hello " + who + "!";
-    document.getElementById("jyeongik").src = "images/kyenik_hello.jpg";
+    document.getElementById("kyeongikpic").src = "images/kyeonik_hello.jpg";
     document.getElementById("showname2").style.display = '';
     document.getElementById("quhi2").style.display = '';
     document.getElementById("quweb2").style.display = '';
     document.getElementById("quanswer2").style.display = '';
 }
+
 function myFunction3() {
     var who = document.getElementById('whoname3').value;
     document.getElementById("showname3").style.display = '';
