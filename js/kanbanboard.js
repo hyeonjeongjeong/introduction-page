@@ -173,7 +173,7 @@ function dragOver(e) {
 	e.preventDefault();
 }
 function dragEnter() {
-	let kanbanElement = $(this).parent()[0];
+	let kanbanElement = $(this).parent().eq(0);
 
 	$(kanbanElement).css({
 		"box-shadow": "0 5px 20px 0 rgba(68, 88, 144, 0.3)",
@@ -183,7 +183,7 @@ function dragEnter() {
 	console.log('dragEnter');
 }
 function dragLeave() {
-	let kanbanElement = $(this).parent()[0];
+	let kanbanElement = $(this).parent().eq(0);
 
 	$(kanbanElement).css({
 		"box-shadow": "",
@@ -193,7 +193,7 @@ function dragLeave() {
 	console.log('dragLeave');
 }
 function dragDrop() {
-	let kanbanElement = $(this).parent()[0];
+	let kanbanElement = $(this).parent().eq(0);
 
 	$(kanbanElement).css({
 		"box-shadow": "",

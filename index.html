@@ -48,9 +48,9 @@
             </div>
         </div>
     </nav>
-    
+
     <!-- Masthead-->
-    <header class="masthead" style="background-image:url(images/facebook_cover_photo_1.png)">
+    <header class="masthead">
         <div class="container">
             <div class="masthead-subheading" align="right" style="text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;">Welcome To ECOUNT TEAM3!</div>
             <div class="masthead-heading text-uppercase" align="right" style="text-shadow: -3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000;">It's Nice To Meet You</div>
@@ -154,7 +154,7 @@
                                 <button onclick="toggleimg2()" style="width: 60px; height: 40px; vertical-align:auto;">NO</button>
                             </div>
                             <div id="personalpage2" class="arrow_box_yellow" style="width: 280px; height: 70px; display: none; text-align: center;">
-                                <h3>개인홈페이지 주소</h3>
+                                <h3><a href="https://peaceful-sundae-621985.netlify.app/" target="_blank">Let's GO</a></h3>
                             </div>
                         </div>
                     </header>
@@ -253,7 +253,6 @@
     <!-- Kanban Board-->
     <section class="page-section" id="kanban">
         <div class="container">
-            -
             <div class="text-center">
                 <h2 class="section-heading text-uppercase">Kanban Board</h2>
                 <h3 class="section-subheading text-muted">Drag&Drop과 Local Storage를 활용한 칸반보드입니다.</h3>
@@ -332,44 +331,44 @@
     </section>
 
 
+    <!-- Contact-->
     <section class="page-section" id="guestbook">
         <div class="container">
-            <div class="text-center" style="margin :0 auto;">
+            <div class="text-center">
                 <h2 class="section-heading text-uppercase">Guest Book</h2>
                 <h3 class="section-subheading text-muted">Ecount team 3 에게 하고 싶은 말을 남겨주세요</h3>
             </div>
-            <div style="margin :0 auto;">
-                <form>
-                    <table class="tbl" align="center" style="width: 100%">
-                        <tr>
-                            <th>이름</th>
-                            <td>
-                                <input type="text" class="form-group form-control" id="uName" style="width: 100%; height: 50px; margin-bottom:15px">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>내용</th>
-                            <td>
-                                <input type="text" class="form-group form-control" id="uContent" style="height:200px;">
-                            </td>
-                        </tr>
-                    </table>
-
-                    <br>
-                    <div style="text-align:center">
-                        <input type="button" value="글쓰기" class="btn btn-outline-warning" style="width: 200px; height: 50px; font-size:18pt; margin:auto 0;" onclick="main()">
+            <form id="contactForm">
+                <div class="row align-items-stretch mb-5">
+                    <div class="form-group">
+                        <!-- Name input-->
+                        <input class="form-control" id="uName" style="width: 100%; height: 50px;" type="text" placeholder="이름" />
+                        <div class="invalid-feedback">A name is required.</div>
                     </div>
-                    <br><br>
-                    <table class="tbl table" id="bbsTable" align="center" style="margin: auto 0;">
-                        <tr>
-                            <th>번호</th>
-                            <th>이름</th>
-                            <th>내용</th>
-                            <th>작성일</th>
-                        </tr>
-                    </table>
-                </form>
-            </div>
+                    <div class="form-group form-group-textarea mb-md-0">
+                        <!-- Message input-->
+                        <textarea class="form-control" id="uContent" style="height:200px;" placeholder="내용" data-sb-validations="required"></textarea>
+                        <div class="invalid-feedback">A message is required.</div>
+                    </div>
+                </div>
+                <!-- Submit success message-->
+                <!---->
+                <!-- This is what your users will see when the form-->
+                <!-- has successfully submitted-->
+                <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
+                <div class="text-center">
+                    <input type="button" value="글쓰기" class="btn btn-primary btn-xl text-uppercase" onclick="main()" style="width: auto; height: auto">
+                </div>
+                <br><br>
+                <table class="tbl table" id="bbsTable" align="center" style="margin: auto 0;">
+                    <tr>
+                        <th>번호</th>
+                        <th>이름</th>
+                        <th>내용</th>
+                        <th>작성일</th>
+                    </tr>
+                </table>
+            </form>
         </div>
     </section>
 
